@@ -1,5 +1,9 @@
 {
   "name": "resas-proxy",
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=8"
+	},
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
