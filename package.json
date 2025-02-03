@@ -2,13 +2,18 @@
   "name": "resas-proxy",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
+    "deploy": "wrangler deploy --minify",
+    "lint": "biome lint src/",
+    "format": "biome format src/",
+    "format:fix": "biome check --write src/"
   },
   "dependencies": {
     "hono": "^4.6.20"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@cloudflare/workers-types": "^4.20250109.0",
+    "lefthook": "^1.10.10",
     "wrangler": "^3.101.0"
   }
 }
