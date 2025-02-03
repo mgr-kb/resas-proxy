@@ -24,6 +24,7 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
 
+      - run: pnpm install
       - name: Test
         run: pnpm test
 
