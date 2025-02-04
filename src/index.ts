@@ -8,17 +8,17 @@ const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger());
 
 app.get("/", (c) => {
-	return c.text("Hello Hono!");
+  return c.text("Hello Hono!");
 });
 
 app.onError((err, c) => {
-	const statusCode = err instanceof ApiError ? err.status : 500;
-	const message =
-		err instanceof ApiError ? err.message : "Internal Server Error";
+  const statusCode = err instanceof ApiError ? err.status : 500;
+  const message =
+    err instanceof ApiError ? err.message : "Internal Server Error";
 
-	appLogger(statusCode.toString(), message);
+  appLogger(statusCode.toString(), message);
 
-	return c.json<ErrorResponse>({ message }, statusCode);
+  return c.json<ErrorResponse>({ message }, statusCode);
 });
 
 export default app;

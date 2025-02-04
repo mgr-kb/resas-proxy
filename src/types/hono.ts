@@ -1,3 +1,3 @@
 type Bindings = {
-	API_SECRET: string;
+  API_SECRET: string;
 };
