@@ -8,7 +8,7 @@ import app from "./index";
 
 const { env } = await getPlatformProxy();
 
-describe("GET /", async () => {
+describe("src/index.ts", async () => {
   let worker: Unstable_DevWorker;
 
   beforeAll(async () => {
@@ -23,17 +23,10 @@ describe("GET /", async () => {
     await worker.stop();
   });
 
-  it("正常レスポンス", async () => {
-    const response = await app.request(
-      "/",
-      { method: "GET", headers: { "Content-Type": "application/json" } },
-      env,
-    );
-    const text = await response.text();
-
-    expect(response.status).toBe(200);
-    expect(text).toBe("Hello Hono!");
-  });
+  /**
+   * [NOTE]
+   * routes系のテストは、route定義側で実施
+   */
 
   it("エラーレスポンス 404", async () => {
     const response = await app.request(
