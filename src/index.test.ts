@@ -34,4 +34,14 @@ describe("GET /", async () => {
 		expect(response.status).toBe(200);
 		expect(text).toBe("Hello Hono!");
 	});
+
+	it("エラーレスポンス 404", async () => {
+		const response = await app.request(
+			"/error",
+			{ method: "GET", headers: { "Content-Type": "application/json" } },
+			env,
+		);
+
+		expect(response.status).toBe(404);
+	});
 });
