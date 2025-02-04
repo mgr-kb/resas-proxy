@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
+import routes from "./routes";
 import { ApiError } from "./utils/ApiError";
 import { appLogger } from "./utils/appLogger";
 
@@ -7,9 +8,11 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use(logger());
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
+/**
+ * [FIXME]
+ * アクセス制御をかける (FEができてから)
+ */
+app.route("/", routes);
 
 app.onError((err, c) => {
   const statusCode = err instanceof ApiError ? err.status : 500;
