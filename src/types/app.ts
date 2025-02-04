@@ -1,3 +1,3 @@
 type ErrorResponse = {
-	message: string;
+  message: string;
 };
