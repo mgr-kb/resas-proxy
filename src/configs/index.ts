@@ -8,4 +8,7 @@ export const configs = {
 	prefectures: {
 		path: "/api/v1/prefectures",
 	},
+	populationCompositionPerYear: {
+		path: "/api/v1/population/composition/perYear",
+	},
 } as const;
