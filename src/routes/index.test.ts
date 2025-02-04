@@ -4,6 +4,7 @@ import {
   unstable_dev,
 } from "wrangler";
 
+import * as domainPopulation from "@/domains/population";
 import * as domainsPrefectures from "@/domains/prefectures";
 import { ApiError } from "@/utils/ApiError";
 import routes from ".";
@@ -62,6 +63,82 @@ describe("routes", async () => {
 
       expect(response.status).toBe(500);
       expect(spyFetchPrefectures).toHaveBeenCalledWith(env);
+    });
+  });
+
+  describe("GET /population/compotion/perYear/:prefCode", () => {
+    it("正常レスポンス", async () => {
+      const mockPrefCode = 123;
+      const mockResponse = {
+        message: "success",
+        result: {
+          boundaryYear: 2020,
+          data: [
+            {
+              label: "年少人口",
+              data: [
+                {
+                  year: 1960,
+                  value: 1681479,
+                  rate: 33.37,
+                },
+              ],
+            },
+          ],
+        },
+      };
+      const spyFetchPopulationCompositionPerYear = vi
+        .spyOn(domainPopulation, "fetchPopulationCompositionPerYear")
+        .mockResolvedValueOnce(mockResponse);
+
+      const response = await routes.request(
+        `/population/compotion/perYear/${mockPrefCode}`,
+        { method: "GET", headers: { "Content-Type": "application/json" } },
+        env,
+      );
+      const json = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(json).toEqual(mockResponse);
+      expect(spyFetchPopulationCompositionPerYear).toHaveBeenCalledWith(
+        mockPrefCode,
+        env,
+      );
+    });
+    it("パラメータ指定エラー", async () => {
+      const mockPrefCode = "foo";
+      const spyFetchPopulationCompositionPerYear = vi.fn();
+
+      const response = await routes.request(
+        `/population/compotion/perYear/${mockPrefCode}`,
+        { method: "GET", headers: { "Content-Type": "application/json" } },
+        env,
+      );
+
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({
+        message: "prefCode must be a number",
+      });
+      expect(spyFetchPopulationCompositionPerYear).not.toHaveBeenCalled();
+    });
+    it("fetchエラーレスポンス", async () => {
+      const mockPrefCode = 123;
+      const mockError = new ApiError({ message: "mock Error" });
+      const spyFetchPopulationCompositionPerYear = vi
+        .spyOn(domainPopulation, "fetchPopulationCompositionPerYear")
+        .mockRejectedValueOnce(mockError);
+
+      const response = await routes.request(
+        `/population/compotion/perYear/${mockPrefCode}`,
+        { method: "GET", headers: { "Content-Type": "application/json" } },
+        env,
+      );
+
+      expect(response.status).toBe(500);
+      expect(spyFetchPopulationCompositionPerYear).toHaveBeenCalledWith(
+        mockPrefCode,
+        env,
+      );
     });
   });
 });
