@@ -1,3 +1,4 @@
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { ApiError } from "./ApiError";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
@@ -50,7 +51,7 @@ export class HttpClient {
 					throw new ApiError({
 						message: `Http Error. ${response.statusText}`,
 						name: "HttpError",
-						status: response.status,
+						status: response.status as ContentfulStatusCode,
 						statusText: response.statusText,
 					});
 				}
