@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import routes from "./routes";
 import { ApiError } from "./utils/ApiError";
@@ -8,10 +9,15 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use(logger());
 
-/**
- * [FIXME]
- * アクセス制御をかける (FEができてから)
- */
+app.use(
+  cors({
+    origin: "https://mgr-kb.github.io",
+    allowMethods: ["GET"],
+    allowHeaders: ["Content-Type"],
+    credentials: true,
+    maxAge: 86400,
+  }),
+);
 app.route("/", routes);
 
 app.onError((err, c) => {
