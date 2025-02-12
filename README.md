@@ -1,9 +1,15 @@
 # resas-proxy
 
+## エンドポイント
+
+https://resas-proxy.koumgrars13.workers.dev
+
 ## 概要
 
 下記apiにアクセスするためのproxyです。
 https://yumemi-frontend-engineer-codecheck-api.vercel.app/api-doc
+
+※swaggerに関しては上記apiのproxyでしかなく、エンドポイント, パスが異なる程度なので特段用意しておりません。
 
 ## セットアップ
 
